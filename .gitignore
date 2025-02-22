@@ -1,0 +1,56 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# R Project Specific Files and Folders
+# These files are typically automatically generated and should not be tracked.
+
+# Compiled code
+*.o
+*.so
+*.dll
+
+# R data files that can be large
+*.RData
+*.rda
+*.rds
+
+# R history files
+.Rhistory
+.Rapp.history
+
+# R session information (can contain sensitive data)
+.Rproj.user/ # Project-specific user settings (sensitive data)
+.Renviron # Environment variables (can contain passwords, API keys)
+
+# Temporary files created during package building
+/R/*.rdb # database for lazy-loaded data
+/R/*.rdx # index for lazy-loaded data
+/*.dll # dll files (compiled code)
+/*.so # so files (compiled code)
+/*.o # compiled object code
+
+# Files created by RStudio
+.rs.history
+.Rstudio-Desktop # RStudio settings (can contain sensitive data)
+.Rstudio # RStudio settings (can contain sensitive data)
+
+# Packages/Libraries 
+/renv/ # Exclude the 'renv' folder if using renv package management
+/packrat/ #Exclue the packrat folder if using packrat package management
+
+# User-specific and potentially large data caches.
+/Data/ # A common location for data, customize if you store data elsewhere.
+
+# Large output files, results, or figures.  Adjust as needed.
+/Output/
+/Results/
+/Figs/
+
+# OS Specific Files 
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
