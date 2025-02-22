@@ -7,6 +7,7 @@
 # These files are typically automatically generated and should not be tracked.
 
 # Compiled code
+
 *.o
 *.so
 *.dll
