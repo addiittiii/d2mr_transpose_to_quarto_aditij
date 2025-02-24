@@ -21,12 +21,22 @@ author-note:
     study-registration: ~
     data-sharing: ~
     related-report: ~
-    conflict-of-interest: ~
+    conflict-of-interest: No conflicts of interest. 
     financial-support: ~
-    gratitude: ~
+    gratitude: "I would like to thank my supervisors, Ms. Nikita Srivastava and Ms. Manjari Sarathe for their unwavering support, patience, encouragement, passion, and immense knowledge. Their expertise was paramount in generating a structure for the paper as well as identifying the key research techniques undertaken in the paper. Without their help, the final product would have been extremely lacking. Aside from my supervisors, I'd like to thank everyone who took part in the study and contributed to making the research process run smoothly."
     authorship-agreements: ~
 abstract: "Long-distance romantic relationships (LDRRs) have existed for centuries, and while technological advancements have made them more manageable, they still differ significantly from geographically close relationships (GCRs), particularly in terms of in-person interactions. Interpersonal trust, the willingness to be vulnerable and rely on one’s partner, may be influenced by the physical distance in LDRRs. Similarly, relationship satisfaction reflects overall contentment in a relationship and may be shaped by different relational dynamics in LDRRs and GCRs. This study examined trust and relationship satisfaction in 50 LDRR couples and 50 GCR couples using standardized measures. Findings revealed that trust levels were significantly higher in LDRRs, suggesting that physical distance may foster greater reliance on partners. While relationship satisfaction did not differ significantly, it was slightly higher in LDRRs. These results highlight the unique psychological dynamics of LDRRs and emphasize the need for further research into the factors influencing trust and satisfaction across different relationship types."
 keywords: [long distance relationships, geographically close relationships, trust, relationship satisfaction]
+# If true, tables and figures are mingled with the text instead of listed at the end of the document.
+floatsintext: true
+# Numbered lines (.pdf and .docx only)
+numbered-lines: false
+# File with references
+# Suppress title page
+suppress-title-page: false
+# Link citations to references
+link-citations: true
+# Masks references that appear in the masked-citations list
 bibliography: bibliography.bib
 format:
   apaquarto-docx: default
@@ -40,6 +50,17 @@ format:
     # Can be jou (journal), man (manuscript), stu (student), or doc (document)
     documentmode: man
     keep-tex: true
+    output: true
+    latex_engine: xelatex
+    mainfont: "Times New Roman"
+    number_sections: true
+    geometry:
+      - margin=1in  # Adjust this value
+    fig_caption: true
+    include-in-header: 
+      text: |
+        \usepackage{float}
+        \floatplacement{table}{H}
 ---
 
 ```{r}
@@ -54,7 +75,13 @@ library(dplyr)
 library(readr)
 library(readxl)
 library(ggplot2)
-
+library(ggtext)
+library(readxl)
+library(cocor)  # For comparing correlations
+library(psych)
+library(gridExtra)  # for arranging plots side by side
+library(gt)
+library(kableExtra)
 conflicts_prefer(dplyr::filter, .quiet = TRUE)
 conflicts_prefer(flextable::separate_header, .quiet = TRUE)
 
@@ -68,54 +95,62 @@ The phenomenon of geographically dispersed romantic relationships is by no means
 
 Empirical observations, such as the survey data cited by KIRROO (2018), suggest that LDRRs may possess a surprisingly high success rate, challenging the widely held perception that geographical proximity is a sine qua non for relationship viability. The KIRROO survey indicated a 58% success rate for LDRRs, with a notable 27% of these relationships originating without any prior period of co-location. These figures compel us to re-evaluate the conventional wisdom surrounding LDRRs and to explore the potential mechanisms that contribute to their unexpected resilience.
 
-One potential explanation for the apparent success of LDRRs lies in the inherent need for increased reliance and commitment in the face of geographical separation. Partners in LDRRs may cultivate heightened levels of trust as a coping mechanism, necessitated by the limited ability to directly monitor or observe their partner's activities and interactions. This perspective aligns with the findings of Koranyi and Rothermund (2012), who demonstrated that individuals facing relationship stressors, including simulated long-distance separation, exhibited increased levels of interpersonal trust in experimental settings. Their research suggests that elevated trust may serve as an adaptive response to perceived threats to relationship stability, potentially mitigating the negative effects of distance-related anxieties.
+One potential explanation for the apparent success of LDRRs lies in the inherent need for increased reliance and commitment in the face of geographical separation. Partners in LDRRs may cultivate heightened levels of trust as a coping mechanism, necessitated by the limited ability to directly monitor or observe their partner's activities and interactions. This perspective aligns with the findings of @koryani2012when, who demonstrated that individuals facing relationship stressors, including simulated long-distance separation, exhibited increased levels of interpersonal trust in experimental settings. Their research suggests that elevated trust may serve as an adaptive response to perceived threats to relationship stability, potentially mitigating the negative effects of distance-related anxieties.
 
 Conversely, the challenges inherent in LDRRs, such as the scarcity of physical intimacy, the potential for miscommunication, and the heightened susceptibility to feelings of jealousy and insecurity, may erode trust and undermine relationship satisfaction. The absence of regular face-to-face interactions can exacerbate existing vulnerabilities within a relationship, leading to heightened levels of anxiety, suspicion, and conflict. Moreover, the reliance on mediated communication channels may create opportunities for misinterpretation and ambiguity, further complicating the process of building and maintaining trust.
 
-#Trust
+*Trust*
 
-Trust represents a cornerstone of any successful interpersonal relationship, and is particularly critical within the context of romantic partnerships. For the purposes of this study, trust is defined as the extent to which an individual believes their partner is reliable, dependable, honest, and acts in ways that consider their well-being (@Cook2003; @RempelHolmes1989). This definition encompasses both the cognitive and affective dimensions of trust, reflecting not only a belief in the partner's behavioral consistency but also a sense of emotional security within the relationship.
+Trust represents a cornerstone of any successful interpersonal relationship, and is particularly critical within the context of romantic partnerships. For the purposes of this study, trust is defined as the extent to which an individual believes their partner is reliable, dependable, honest, and acts in ways that consider their well-being [@rempel1985trust]. This definition encompasses both the cognitive and affective dimensions of trust, reflecting not only a belief in the partner's behavioral consistency but also a sense of emotional security within the relationship.
 
-Central to understanding the dynamics of trust in romantic relationships is Sternberg's (2003) triangular theory of love. Sternberg posits that love is composed of three fundamental components: intimacy, passion, and commitment. Trust, as it pertains to romantic relationships, can be viewed as an integral element of both intimacy and commitment. Intimacy, characterized by feelings of closeness, connection, and mutual understanding, necessitates a foundation of trust, whereby partners feel safe and secure in sharing their thoughts, feelings, and vulnerabilities. Similarly, commitment, encompassing the desire to maintain and sustain the relationship over time, relies on a belief in the partner's reliability, dependability, and loyalty. The relative importance of these components may vary across different relationships and at different stages of the relationship lifecycle (Sternberg, 1986).
+Central to understanding the dynamics of trust in romantic relationships is @sternberg1986triangular triangular theory of love. Sternberg posits that love is composed of three fundamental components: intimacy, passion, and commitment. Trust, as it pertains to romantic relationships, can be viewed as an integral element of both intimacy and commitment. Intimacy, characterized by feelings of closeness, connection, and mutual understanding, necessitates a foundation of trust, whereby partners feel safe and secure in sharing their thoughts, feelings, and vulnerabilities. Similarly, commitment, encompassing the desire to maintain and sustain the relationship over time, relies on a belief in the partner's reliability, dependability, and loyalty. The relative importance of these components may vary across different relationships and at different stages of the relationship lifecycle [@sternberg1986triangular].
 
 Building upon this theoretical framework, it is plausible to argue that successful LDRRs may exhibit a distinct configuration of these components, with a relatively greater emphasis on trust and commitment as compensatory mechanisms for the limitations imposed by geographical distance. Individuals in enduring LDRRs may develop a heightened sense of confidence in their partner's fidelity and commitment, fostering a climate of mutual trust that transcends the physical separation. This heightened level of trust may, in turn, contribute to increased relationship satisfaction and overall well-being.
 
-Campbell and Staton (2019) provide a valuable framework for understanding the antecedents of trust in romantic relationships, highlighting the interplay between attachment theory and dyadic trust. Attachment theory, rooted in Bowlby's (1958) seminal work on the attachment bond between caregiver and child, posits that early childhood experiences shape individuals' expectations and behaviors in subsequent close relationships. Individuals with secure attachment styles tend to exhibit higher levels of trust and intimacy in their romantic relationships, while those with insecure attachment styles (e.g., anxious or avoidant) may struggle with trust and commitment. Dyadic trust, on the other hand, focuses on the specific behaviors and interactions within the relationship that foster or erode trust. A partner's reliability, consistency, and responsiveness to the other's needs are crucial determinants of dyadic trust.
+@campbell2019adult provide a valuable framework for understanding the antecedents of trust in romantic relationships, highlighting the interplay between attachment theory and dyadic trust. Attachment theory, rooted in Bowlby's (1958) seminal work on the attachment bond between caregiver and child, posits that early childhood experiences shape individuals' expectations and behaviors in subsequent close relationships. Individuals with secure attachment styles tend to exhibit higher levels of trust and intimacy in their romantic relationships, while those with insecure attachment styles (e.g., anxious or avoidant) may struggle with trust and commitment. Dyadic trust, on the other hand, focuses on the specific behaviors and interactions within the relationship that foster or erode trust. A partner's reliability, consistency, and responsiveness to the other's needs are crucial determinants of dyadic trust.
 
-The importance of trust in maintaining healthy and fulfilling romantic relationships cannot be overstated. Research by Kim et al. (2015) demonstrates that low levels of trust within a relationship can negatively impact conflict resolution and overall relationship satisfaction. Their study revealed that partners with low levels of trust exert a disproportionate influence on the relationship dynamics during conflict discussions, leading to decreased feelings of closeness and satisfaction. Conversely, couples in which both partners exhibit high levels of trust tend to experience increased closeness and satisfaction following conflict discussions.
+The importance of trust in maintaining healthy and fulfilling romantic relationships cannot be overstated. Research by @kimLongDistance demonstrates that low levels of trust within a relationship can negatively impact conflict resolution and overall relationship satisfaction. Their study revealed that partners with low levels of trust exert a disproportionate influence on the relationship dynamics during conflict discussions, leading to decreased feelings of closeness and satisfaction. Conversely, couples in which both partners exhibit high levels of trust tend to experience increased closeness and satisfaction following conflict discussions.
 
-#Relationship Satisfaction
+*Relationship Satisfaction*
 
-Beyond trust, another key indicator of relationship health is relationship satisfaction. For the purpose of this study, relationship satisfaction is defined as the subjective attitude and affective experience an individual has in evaluating their romantic relationship (Clements et al., 1957). This encapsulates an individual’s overall happiness, contentment, and sense of fulfillment derived from the relationship. It is important to note that relationship satisfaction can be influenced by a multitude of factors, including communication patterns, conflict resolution skills, shared values, and the fulfillment of individual needs within the relationship.
+Beyond trust, another key indicator of relationship health is relationship satisfaction. For the purpose of this study, relationship satisfaction is defined as the subjective attitude and affective experience an individual has in evaluating their romantic relationship @clements1997erosion. This encapsulates an individual’s overall happiness, contentment, and sense of fulfillment derived from the relationship. It is important to note that relationship satisfaction can be influenced by a multitude of factors, including communication patterns, conflict resolution skills, shared values, and the fulfillment of individual needs within the relationship.
 
-Given the complexities and nuances surrounding trust and relationship satisfaction in the context of LDRRs, the present study aims to contribute to a deeper understanding of these phenomena. While previous research has explored various facets of LDRRs, the specific focus on trust as a key differentiating factor remains relatively underexplored. Therefore, the purpose of this study is to assess and compare the levels of trust and relationship satisfaction in adult individuals engaged in long-distance romantic relationships and geographically close relationships. To address this aim, the following hypotheses are proposed. First, it is hypothesized that couples in long-distance romantic relationships of six months or more will report significantly higher levels of trust compared to geographically close couples. This hypothesis is based on the premise that the need for reliance and commitment is heightened in LDRRs, leading to the development of compensatory trust mechanisms. Second, it is hypothesized that couples in long-distance romantic relationships of six months or more will report significantly different levels of relationship satisfaction compared to geographically close couples. This hypothesis is exploratory in nature, acknowledging the potential for both positive and negative effects of distance on relationship satisfaction. While heightened trust may contribute to increased satisfaction, the limitations imposed by distance may also exert a negative influence. Finally, it is hypothesized that there will be a significant positive correlation between trust and relationship satisfaction, consistent with the broader literature on romantic relationships, which consistently demonstrates a strong association between trust and overall relationship well-being. By empirically testing these hypotheses, this study aims to provide valuable insights into the unique dynamics of trust and satisfaction in LDRRs, contributing to a more nuanced understanding of the factors that promote or undermine the success of these increasingly prevalent relationship configurations. The findings of this research may have implications for relationship counseling, interventions aimed at promoting relationship health in LDRRs, and broader theoretical understandings of the role of trust in intimate relationships.
+Research by @cowan1992when stated that relationship satisfaction is higher in the premarital stage and from then it declines for both men and women but still couples stay married happily for life. There exist many predictors of relationship satisfaction and one of them is the attachment style. People with insecure attachment styles tend to have less satisfied partners. People with anxious and avoidant attachment styles have less satisfied self and spouses. Along with this, the style of communication of partners also determines the satisfaction with the relationship of individuals. A study was done by @taneja2020impact aimed to compare and assess trust, commitment, and relationship satisfaction in close proximity couples and long-distance couples. A sample of 40 individuals including both LDR couples and close proximity couples was taken and 3 different scales were used to assess the variables. Results showed that there was a significant difference in trust and commitment among the two kinds of relationship but the relationship satisfaction was statistically insignificant. There is not a lot of research done on relationship satisfaction outside the heterosexual areas but @gottman2003correlates stated that the relationship satisfaction in homosexual and heterosexual couples has a lot of common grounds.
+Given the complexities surrounding trust and relationship satisfaction, particularly in long-distance romantic relationships (LDRRs), the present study aims to contribute to a deeper understanding of these phenomena. While previous research has explored various facets of LDRRs, the specific focus on trust as a key differentiating factor warrants further investigation. Therefore, the purpose of this study is to assess and compare the levels of trust and relationship satisfaction in adult individuals engaged in LDRRs and geographically close relationships (GCRs). In pursuit of this aim, we proposed the following hypotheses: (1) that individuals in LDRRs of six months or more will exhibit significantly higher levels of overall trust compared to individuals in GCRs of similar duration, (2) that individuals in LDRRs of six months or more will exhibit significantly different levels of relationship satisfaction compared to individuals in GCRs of similar duration, and (3) that a significant positive correlation will be observed between overall trust and relationship satisfaction, regardless of relationship type (LDRR or GCR). By empirically testing these hypotheses, this study aims to provide valuable insights into the unique dynamics of trust and satisfaction in LDRRs, contributing to a more nuanced understanding of the factors that promote or undermine the success of these increasingly prevalent relationship configurations. This research has implications for relationship counseling, interventions aimed at promoting relationship health in LDRRs, and broader theoretical understandings of the role of trust in intimate relationships. The findings may contribute to a more refined theoretical framework for understanding relationship dynamics in the context of geographical distance, providing a basis for future research on the topic.
 
 # Method
 
 ## Participants
-A total of 100 young adults (50 individuals in long-distance romantic relationships [LDRRs] and 50 individuals in geographically close relationships [GCRs]) and their respective partners were recruited to participate in the study. Participants were recruited from across India via online platforms and social media. The age of participants ranged from 18 to 25 years ( M = [calculate and insert the mean age], SD = [calculate and insert the standard deviation]). Participants were required to be in a committed, monogamous relationship for at least six months to be eligible for inclusion in the study. For the LDRR group, a long-distance relationship was defined as a relationship in which partners reside in separate cities or regions, with limited opportunities for in-person contact (defined as less than once per month). All participants had to give consent to participate in this study.
+
+A total of 100 young adults (50 individuals in long-distance romantic relationships \[LDRRs\] and 50 individuals in geographically close relationships \[GCRs\]) and their respective partners were recruited to participate in the study. Participants were recruited from across India via online platforms and social media. The age of participants ranged from 18 to 25 years ( M = \[calculate and insert the mean age\], SD = \[calculate and insert the standard deviation\]). Participants were required to be in a committed, monogamous relationship for at least six months to be eligible for inclusion in the study. For the LDRR group, a long-distance relationship was defined as a relationship in which partners reside in separate cities or regions, with limited opportunities for in-person contact (defined as less than once per month). All participants had to give consent to participate in this study.
 
 ## Measures
+
 The following standardized self-report measures were administered to assess the key variables of interest:
 
-Trust in Close Relationships Scale (TCRS; Rempel, Holmes, & Zanna, 1985). The TCRS is a 17-item instrument designed to assess the level of trust individuals have in their romantic partners. The scale comprises three subscales: Dependability (e.g., "I can rely on my partner to keep promises."), Faith (e.g., "My partner is fundamentally honest."), and Predictability (e.g., "My partner's behavior is consistent."). Participants respond to each item using a 7-point Likert-type scale, ranging from 1 (Strongly Disagree) to 7 (Strongly Agree). Higher scores on the TCRS indicate a greater level of trust in the relationship partner. Rempel et al. (1985) reported strong internal consistency for the overall scale, with Cronbach's alpha coefficients ranging from .88 to .94.
+### Trust in Close Relationships Scale (TCRS; Rempel, Holmes, & Zanna, 1985).
 
-Relationship Assessment Scale (RAS; Hendrick, 1988). The RAS is a 7-item measure designed to assess global relationship satisfaction. Items include questions such as "How satisfied are you with your relationship?" and "How well does your partner meet your needs?". Participants respond to each item using a 5-point scale ranging from 1 (Low) to 5 (High). Higher scores on the RAS indicate greater relationship satisfaction. The RAS is widely used in relationship research and has demonstrated good internal consistency and validity (Hendrick, 1988). Cronbach's alpha coefficients for the RAS typically range from .80 to .86.
+The TCRS is a 17-item instrument designed to assess the level of trust individuals have in their romantic partners. The scale comprises three subscales: Dependability (e.g., "I can rely on my partner to keep promises."), Faith (e.g., "My partner is fundamentally honest."), and Predictability (e.g., "My partner's behavior is consistent."). Participants respond to each item using a 7-point Likert-type scale, ranging from 1 (Strongly Disagree) to 7 (Strongly Agree). Higher scores on the TCRS indicate a greater level of trust in the relationship partner. Rempel et al. (1985) reported strong internal consistency for the overall scale, with Cronbach's alpha coefficients ranging from .88 to .94.
+
+### Relationship Assessment Scale (RAS; Hendrick, 1988).
+
+The RAS is a 7-item measure designed to assess global relationship satisfaction. Items include questions such as "How satisfied are you with your relationship?" and "How well does your partner meet your needs?". Participants respond to each item using a 5-point scale ranging from 1 (Low) to 5 (High). Higher scores on the RAS indicate greater relationship satisfaction. The RAS is widely used in relationship research and has demonstrated good internal consistency and validity (Hendrick, 1988). Cronbach's alpha coefficients for the RAS typically range from .80 to .86.
 
 ## Procedure
-Ethical approval for the study was obtained from [Insert name of Institutional Review Board/Ethics Committee]. Prior to participation, all participants were provided with a detailed information sheet outlining the purpose of the study, the procedures involved, the potential risks and benefits of participation, and their right to withdraw from the study at any time without penalty. Informed consent was obtained from all participants before they commenced the online survey.
-Data were collected using an online survey platform (Google Forms) to facilitate convenient and accessible participation for individuals across India. The online survey included demographic questions (age, gender, relationship status, relationship length, geographical location) followed by the TCRS and RAS measures. The order of the questionnaires was randomized to minimize order effects.
-Participants were assured of the confidentiality and anonymity of their responses. Data were stored securely and analyzed using statistical software. Participants were thanked for their participation upon completion of the survey. Data collection took place over a [Number] week period, from [Start Date] to [End Date].
+
+Ethical approval for the study was obtained from the University of Chicago Ethical Committee. Prior to participation, all participants were provided with a detailed information sheet outlining the purpose of the study, the procedures involved, the potential risks and benefits of participation, and their right to withdraw from the study at any time without penalty. Informed consent was obtained from all participants before they commenced the online survey. Data were collected using an online survey platform (Qualtrics) to facilitate convenient and accessible participation for individuals across India. The online survey included demographic questions (age, gender, relationship status, relationship length, geographical location) followed by the TCRS and RAS measures. The order of the questionnaires was randomized to minimize order effects.Participants were assured of the confidentiality and anonymity of their responses. Data were stored securely and analyzed using statistical software. Participants were thanked for their participation upon completion of the survey. Data collection took place over a 2 week period.
 
 # Results
 
-
 ```{r}
-#| label: t-test and mean
+#| label: calculating mean and t-test
 #| include: false
 
+file_path <- "cleaned_ldrgcr.xlsx"
+data <- read_excel(file_path)
+
 # Compute means and SDs for each group
-stats_table <- df %>%
+stats_table <- data %>%
   group_by(`LDR/GCR`) %>%
   summarise(
     Mean_Trust = mean(trust_score, na.rm = TRUE),
@@ -127,31 +162,22 @@ stats_table <- df %>%
   pivot_wider(names_from = `LDR/GCR`, values_from = Value) 
 
 # Perform t-tests
-t_test_trust <- t.test(trust_score ~ `LDR/GCR`, data = df)
-t_test_rs <- t.test(rs_score ~ `LDR/GCR`, data = df)
+t_test_trust <- t.test(trust_score ~ `LDR/GCR`, data = data)
+t_test_rs <- t.test(rs_score ~ `LDR/GCR`, data = data)
 
 # Print results
-print(means) # Print the means
 print(t_test_trust)
 print(t_test_rs)
 
 ```
 
-
-
-
-
-
-
-
+Independent samples *t*-tests were conducted to compare the mean trust scores and relationship satisfaction (RS) scores between the LDR and GCR groups. The analysis revealed no statistically significant difference in trust scores (*t*(`r round(t_test_trust$parameter, 2)`) = `r round(t_test_trust$statistic, 2)`, *p* = `r round(t_test_trust$p.value, 3)`) or RS scores (*t*(`r round(t_test_rs$parameter, 2)`) = `r round(t_test_rs$statistic, 2)`, *p* = `r round(t_test_rs$p.value, 3)`) between the groups. For the **LDR** group, the mean trust score was `r round(stats_table$LDR[stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table$LDR[stats_table$Statistic == "SD_Trust"], 2)`). The mean RS score was `r round(stats_table$LDR[stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table$LDR[stats_table$Statistic == "SD_RS"], 2)`). For the **GCR** group, the mean trust score was `r round(stats_table$GCR[stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table$GCR[stats_table$Statistic == "SD_Trust"], 2)`). The mean RS score was `r round(stats_table$GCR[stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table$GCR[stats_table$Statistic == "SD_RS"], 2)`). The 95% confidence interval for the difference in mean trust scores ranged from `r round(t_test_trust$conf.int[1], 2)` to `r round(t_test_trust$conf.int[2], 2)`, and for RS scores, it ranged from `r round(t_test_rs$conf.int[1], 2)` to `r round(t_test_rs$conf.int[2], 2)`. Both intervals included zero, indicating a lack of statistically significant differences between LDR and GCR groups. 
 
 ```{r}
 
 #| label: tbl-ttest-kable
 #| tbl-cap: *t*-Test Results
-#| results: asis #Crucially important to display the kable output properly
 
-# Create t-test results table
 t_test_table <- tibble(
   Variable = c("Trust Score", "RS Score"),
   `M (LDR)` = round(c(stats_table$LDR[1], stats_table$LDR[3]), 2),
@@ -159,73 +185,274 @@ t_test_table <- tibble(
   `M (GCR)` = round(c(stats_table$GCR[1], stats_table$GCR[3]), 2),
   `SD (GCR)` = round(c(stats_table$GCR[2], stats_table$GCR[4]), 2),
   `t-value` = round(c(t_test_trust$statistic, t_test_rs$statistic), 3),
-  `df` = round(c(t_test_trust$parameter, t_test_rs$parameter), 0),
+  `data` = round(c(t_test_trust$parameter, t_test_rs$parameter), 0),
   `p-value` = round(c(t_test_trust$p.value, t_test_rs$p.value), 3)
 )
 
-# Format the table with flextable and apply APA theme
-apa_table <- flextable(t_test_table) %>%
-  set_caption("Table 1: Independent Samples t-Test for LDR vs. GCR") %>%
-  theme_apa() %>%
-  autofit()
+# Print table using kable()
+knitr::kable(t_test_table, caption = "Independent Samples t-test for LDR vs. GCR")
+```
+```{r}
+#| label: fig-barplots
+#| include: true
+#| fig.cap: "Mean Scores by Relationship Type. Error bars represent standard errors. LDR = long-distance relationship; GCR = geographically close relationship."
+#| fig.pos: "h!"
+#| fig.height: 4
+#| fig.width: 8
 
-# Print table
-apa_table
+data_long <- data %>%
+  pivot_longer(cols = c(trust_score, rs_score), names_to = "Score_Type", values_to = "Score")
+
+# Plot
+p2 <- ggplot(data_long, aes(x = `LDR/GCR`, y = Score, fill = `LDR/GCR`)) +
+  geom_bar(stat = "summary", fun = "mean", position = "dodge", width = 0.6) +
+  facet_wrap(~Score_Type, scales = "free_y", 
+             labeller = as_labeller(c("trust_score" = "Trust", "rs_score" = "Relationship Satisfaction"))) +
+  labs(x = "Relationship Type",
+       y = "Mean Score",
+       fill = "Relationship Type") +
+  scale_fill_manual(values = c("LDR" = "#444444", "GCR" = "black")) +
+  theme_bw(base_size = 10) +  # Clean look
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "top",  # Legend at the top
+        legend.title = element_blank(),  # Removes legend title
+        strip.text = element_text(face = "bold", size = 14),  # Bold facet labels
+        axis.title = element_text(face = "bold"),
+        axis.text = element_text(size = 12))
+
+# Print plot
+print(p2)
+
+```
+@fig-barplots presents the mean trust and relationship satisfaction scores for individuals in long-distance romantic relationships (LDRRs) and geographically close relationships (GCRs), providing a visual summary of the data. Consistent with the non-significant findings from the t-tests, the figure illustrates similar mean scores across both relationship types. The error bars, representing standard errors of the mean, further emphasize the considerable overlap in the distribution of relationship satisfaction scores between LDRRs and GCRs.
+
+```{r}
+#| label: correlation-calculations
+#| include: true
+#| fig-cap: Mean relationship satisfaction score by relationship type (LDR/GCR), visually representing similar mean scores across groups. Error bars represent standard errors of the mean.
+#| 
+
+# Convert group column to factor
+data$`LDR/GCR` <- as.factor(data$`LDR/GCR`)
+
+# Function to compute correlation and significance for a specific group
+compute_correlations <- function(data, group) {
+  subset_data <- subset(data, `LDR/GCR` == group)
+  
+  # Compute Pearson correlation (default) or Spearman if non-normal
+  cor_results <- lapply(c("trust_score", "dependability", "faith", "predictability"), function(var) {
+    cor_test <- cor.test(subset_data[[var]], subset_data$rs_score, use = "pairwise.complete.obs")
+    return(data.frame(variable = var, correlation = cor_test$estimate, p_value = cor_test$p.value))
+  })
+  
+  return(do.call(rbind, cor_results))  # Convert list to a data frame
+}
+
+# Compute correlations for LDR and GCR groups
+cor_ldr <- compute_correlations(data, "LDR")
+cor_gcr <- compute_correlations(data, "GCR")
+```
+
+```{r}
+#| label: tbl-correlation_table
+#| tbl-cap: "Correlations Between Trust Components and Relationship Satisfaction by Relationship Type"
+
+library(dplyr)
+
+# Create table with renamed variables, formatted correlations, and stars
+cor_table_formatted <- cor_ldr %>%
+  rename(LDR_r = correlation, LDR_p = p_value) %>%
+  left_join(cor_gcr %>% rename(GCR_r = correlation, GCR_p = p_value), by = "variable") %>%
+  mutate(
+    variable = case_when(
+      variable == "trust_score" ~ "Trust",
+      variable == "dependability" ~ "Dependability",
+      variable == "faith" ~ "Faith",
+      variable == "predictability" ~ "Predictability",
+      TRUE ~ variable
+    ),
+    LDR_r = case_when(
+      LDR_p < .01 ~ paste0(sprintf("%.2f", LDR_r), "**"),
+      LDR_p < .05 ~ paste0(sprintf("%.2f", LDR_r), "*"),
+      TRUE ~ sprintf("%.2f", LDR_r)
+    ),
+    GCR_r = case_when(
+      GCR_p < .01 ~ paste0(sprintf("%.2f", GCR_r), "**"),
+      GCR_p < .05 ~ paste0(sprintf("%.2f", GCR_r), "*"),
+      TRUE ~ sprintf("%.2f", GCR_r)
+    )
+  ) %>%
+  select(variable, LDR_r, GCR_r)
+
+# Print table with adjusted column spacing
+knitr::kable(cor_table_formatted,
+             col.names = c("Variable", "LDR", "GCR"),
+             align = c("l", "c", "c")) %>%
+  kableExtra::kable_styling(
+    full_width = FALSE,
+    position = "left"
+  ) %>%
+  kableExtra::column_spec(1, width = "1.5in") %>%  # Reduce Variable column width
+  kableExtra::column_spec(2:3, width = "0.75in") %>% # Reduce LDR/GCR column width
+  kableExtra::footnote(
+    symbol = c("* p < .05. ** p < .01.")
+  )
+```
+\vspace{-2em}
+Moreover, as shown in @tbl-correlation_table, correlations between trust components and relationship satisfaction were examined separately for long-distance relationships (LDR, n = `r nrow(cor_ldr)`) and geographically close relationships (GCR, n = `r nrow(cor_gcr)`). In LDRs, the strongest correlation was observed for `r cor_table_formatted$variable[which.max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$LDR_r)))]` (r = `r max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$LDR_r)))`). Similarly, in GCRs, the strongest correlation was observed for `r cor_table_formatted$variable[which.max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$GCR_r)))]` (r = `r max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$GCR_r)))`). Moreover, all other variables showed highly significant correlations for both LDR and GCR groups.
+
+```{r}
+#| label: fig-correlation-plot
+#| include: true
+#| warning: false
+#| message: false
+#| echo: false
+#| fig.cap: "Correlation for Trust and Relationship Satisfaction Score for LDR vs. GCR"
+#| fig.pos: "h!"
+#| fig.height: 4
+#| fig.width: 6
+
+# Convert group variable to factor
+data$`LDR/GCR` <- factor(data$`LDR/GCR`, levels = c("LDR", "GCR"))
+
+# Define APA theme
+apa_theme <- theme_bw(base_size = 10) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "top",
+        axis.title = element_text(face = "bold"),
+        axis.text = element_text(size = 12))
+
+# 1️⃣ Scatter plot with regression line
+p1 <- ggplot(data, aes(x = rs_score, y = trust_score, color = `LDR/GCR`, shape = `LDR/GCR`)) +
+  geom_point(size = 3, alpha = 0.7) +  # Static aesthetic (size = 3)
+  geom_smooth(method = "lm", se = TRUE, linetype = "solid") +
+  facet_grid(~`LDR/GCR`, scales = "free") +
+  labs(x = "RS Score",
+       y = "Trust Score",
+       color = NULL,
+       shape = NULL,
+       color = "Relationship Type") +
+  scale_color_manual(values = c("black", "#444444")) + 
+  apa_theme
+
+print(p1)
+```
+
+The relationship between trust score and relationship satisfaction (RS) score for both LDR and GCR groups is visually represented in @fig-correlation-plot. While the *t*-tests revealed no significant differences in mean scores between groups, the correlation plot provides insights into the *relationship* between trust and RS within each group. The LDR group exhibits a correlation between trust score and RS score of *r* = `r round(cor_ldr[cor_ldr$variable == "trust_score", "correlation"], 2)` (*p* = `r cor_ldr[cor_ldr$variable == "trust_score", "p_value"]`). The GCR group shows a correlation of *r* = `r round(cor_gcr[cor_gcr$variable == "trust_score", "correlation"], 2)` (*p* = `r cor_gcr[cor_gcr$variable == "trust_score", "p_value"]`). @fig-correlation-plot visually confirms a positive association between trust and RS in both groups, with the points generally trending upward from left to right. The relationship appears to be moderately strong for each group.
+
+
+```{r}
+#| label: anova-calculations
+#| include: false
+#| echo: false
+
+# Two-way ANOVA for Trust Score
+trust_anova <- aov(trust_score ~ `LDR/GCR` * Relationship_duration, data = data)
+summary(trust_anova)
+
+# Two-way ANOVA for Relationship Satisfaction
+rs_anova <- aov(rs_score ~ `LDR/GCR` * Relationship_duration, data = data)
+summary(rs_anova)
+
+# Get descriptive statistics
+library(dplyr)
+
+descriptives <- data %>%
+  group_by(`LDR/GCR`, Relationship_duration) %>%
+  summarise(
+    n = n(),
+    trust_mean = mean(trust_score, na.rm = TRUE),
+    trust_sd = sd(trust_score, na.rm = TRUE),
+    rs_mean = mean(rs_score, na.rm = TRUE),
+    rs_sd = sd(rs_score, na.rm = TRUE)
+  )
+
+# Print descriptive statistics in APA format
+knitr::kable(descriptives,
+             col.names = c("Relationship Type", "Duration", "n", 
+                          "M Trust", "SD Trust", "M RS", "SD RS"),
+             caption = "Descriptive Statistics for Trust and Relationship Satisfaction by Relationship Type and Duration",
+             digits = 2)
+
+# Assumption tests
+# Normality
+shapiro.test(residuals(trust_anova))
+shapiro.test(residuals(rs_anova))
+
+# Homogeneity of variance
+library(car)
+leveneTest(trust_score ~ `LDR/GCR` * Relationship_duration, data = data)
+leveneTest(rs_score ~ `LDR/GCR` * Relationship_duration, data = data)
+
+
 
 ```
 
 ```{r}
-#| label: correlation
+#| label: fig-anova-trust
 #| include: true
-library(ggplot2)
-library(dplyr)
+#| warning: false
+#| message: false
+#| echo: false
+#| fig.cap: "Two-Way Anova for Trust Score by Relationship Duration for LDR vs. GCR "
+#| fig.height: 4
+#| fig.width: 6
+#| fig-pos: "H"
 
-# Assuming your dataframe is named 'df' and has columns 'trust_score', 'rs_score', and 'LDR/GCR'
+source("~/Development/d2mr_transpose_to_quarto_aditij/Plotting_function.R")
 
-# Correlation Plot
-correlation_plot <- ggplot(df, aes(x = trust_score, y = rs_score, color = `LDR/GCR`, fill = `LDR/GCR`)) +
-  geom_point(alpha = 0.7, size = 3, shape = 21, stroke = 1) + # Use shape 21 (filled circle) and add a black stroke for better visibility
-  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +  # Regression line, use linewidth instead of size.
-  labs(
-    x = "Trust Score",
-    y = "RS Score",
-    color = "Group",
-    fill = "Group" #Redundant
-  ) +
-  scale_color_manual(values = c("GCR" = "#E69F00", "LDR" = "#56B4E9"),
-                     name = "Group") + # Manually set colors and legend title
-  scale_fill_manual(values = c("GCR" = "#E69F00", "LDR" = "#56B4E9"),
-                     name = "Group") + # Manually set fill colors and legend title
-  theme_bw() + # APA style uses black and white theme
-  theme(
-    panel.grid.major = element_blank(), # Remove major grid lines
-    panel.grid.minor = element_blank(), # Remove minor grid lines
-    legend.position = "bottom", # Legend at the bottom
-    legend.title = element_text(face = "bold"), # Bold legend title
-    axis.title.x = element_text(face = "bold", margin = margin(t = 10)), # Bold x-axis label, add margin
-    axis.title.y = element_text(face = "bold", margin = margin(r = 10)),  # Bold y-axis label, add margin
-    axis.text = element_text(size = 12, color = "black"), # Adjusted axis text size, make sure the numbers are visible
-    legend.text = element_text(size = 12),  # Adjusted legend text size
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 1) # Add a black border around the panel
+# Plot for Trust Scores
+trust_plot <- CustomPlot(
+  data = data,
+  x_var = "Relationship_duration",
+  y_var = "trust_score",
+  plot_type = "boxplot",
+  x_label = "Relationship Duration",
+  y_label = "Trust Score",
+  group_var = "LDR/GCR",
+  theme_choice = "bw"
+) +
+  scale_fill_manual(values = c("#555555", "gray")) 
 
-  ) +
-  guides(color = guide_legend(override.aes = list(size = 4, shape = 16))) #Adjust size and shape of legend key points
+# Plot for Relationship Satisfaction
+rs_plot <- CustomPlot(
+  data = data,
+  x_var = "Relationship_duration",
+  y_var = "rs_score",
+  plot_type = "boxplot",
+  x_label = "Relationship Duration",
+  y_label = "Relationship Satisfaction Score",
+  group_var = "LDR/GCR",
+  theme_choice = "bw"
+) +
+  scale_fill_manual(values = c("#555555", "gray"))
 
 
-
-
-# Print the plot
-correlation_plot
-
+grid.arrange(trust_plot, rs_plot, ncol = 2)
 
 ```
 
+@fig-anova-trust presents boxplots of trust scores and relationship satisfaction scores, separated by relationship duration (6 months-1 year, More than 1 year) and relationship type (GCR, LDR). For relationships lasting 6 months to 1 year, geographically close relationships (GCRs) had an average trust score of 25.62 (SD = 19.08), while long-distance relationships (LDRs) had an average trust score of 28.81 (SD = 12.20). For relationships lasting more than 1 year, GCRs had an average trust score of 28.85 (SD = 17.55), and LDRs had an average trust score of 30.10 (SD = 14.75). For relationships lasting 6 months to 1 year, geographically close relationships (GCRs) had an average relationship satisfaction score of 29.38 (SD = 5.06), while long-distance relationships (LDRs) had an average relationship satisfaction score of 29.38 (SD = 3.72). For relationships lasting more than 1 year, GCRs had an average relationship satisfaction score of 29.45 (SD = 4.99), and LDRs had an average relationship satisfaction score of 28.93 (SD = 4.96). Visually, the boxplots suggest that the central tendencies for trust scores are slightly higher among LDRs than GCRs for both durations. The same is the case for RS scores.
 
 # Discussion
 
-## Limitations and Future Directions
+The present study sought to elucidate the intricate relationships between trust components and relationship satisfaction, specifically within the context of geographically diverse romantic relationships (i.e., long-distance vs. geographically close). As shown in Figure @anova-trust-figure, we examined the relationships in the means of scores in the LDR and GCR. This will give context to the rest of the discussion. By examining the correlations between trust subscales and relationship satisfaction and by comparing overall trust and relationship satisfaction levels across relationship types, this study aimed to contribute a more nuanced understanding of relationship dynamics in the face of geographical distance.
+
+As initially hypothesized in Hypothesis 3, a statistically significant positive correlation emerged between overall trust and relationship satisfaction across both LDRRs and GCRs (r = .67 for LDRs, r = .69 for GCRs, p \< .01). These values are recorded in our table as mentioned in the correlation_table. This finding strongly corroborates the existing body of literature that consistently underscores the fundamental role of trust in fostering and maintaining satisfying romantic relationships [@anderson2006predictors]. Trust, as a multifaceted construct encompassing reliance, confidence, and predictability, appears to be a cornerstone of relationship well-being, irrespective of the physical proximity of the partners involved. This alignment with prior research lends further credence to the generalizability of the trust-satisfaction link, suggesting its robustness across diverse relationship contexts.
+
+Moreover, the examination of individual trust subscales also indicates these in our @correlation_table Dependability, Faith and Predictability reveal significant positive correlations with relationship satisfaction across both relationship types (p \< .01). These findings suggest that the various facets of trust each contribute uniquely and significantly to overall relationship quality. The dispositional qualities of a partner that inspire confidence and reliability (dependability), the belief in the partner's responsiveness and caring in an uncertain future (faith), and the consistency and stability of a partner’s behaviors based on past experiences (predictability) all appear to independently enhance individuals' satisfaction with their romantic relationships. This highlights the importance of considering trust not as a unitary construct, but rather as a constellation of related but distinct elements, each contributing in meaningful ways to relationship well-being.
+
+However, contrary to initial expectations outlined in Hypothesis 1, the t-tests, recorded as Table 1, failed to demonstrate a statistically significant difference in overall trust scores between individuals in LDRRs and those in GCRs (t = -0.550, p = .583). This suggests that geographical distance, in and of itself, does not necessarily lead to higher or lower levels of trust in romantic relationships. Similarly, Hypothesis 2, which posited a significant difference in relationship satisfaction levels between LDRRs and GCRs, was also not supported by the t-test results (t = 0.326, p = .745). This lack of significant group differences challenges the notion that physical proximity is a primary determinant of relationship satisfaction.
+
+The absence of significant differences in trust and satisfaction levels between LDRRs and GCRs prompts a re-evaluation of the theoretical framework guiding the study. One possible interpretation is that compensatory mechanisms may operate within LDRRs to mitigate the potential negative effects of physical distance. Specifically, couples in LDRRs may actively engage in communication strategies or behaviors that enhance trust and commitment, thereby counteracting the challenges posed by geographical separation. Figure @anova-trust-figure offers a descriptive view to see the means of trust and relationship between relationships, depending on the duration of their relationship. Another possibility is that relationship satisfaction and trust scores may have similar scores. In summary, the descriptive statistics as found in the correlation_table indicates and guides us to analyze more data on communication styles and different research strategies.
+
+Furthermore, as the dataset from @tbl-ttest-kable shows both significant and insignificant relationships, there is an underlying factor that is impacting the results of the study. This can be one the "Theory on Self": We have more data in place, which may indicate the relationship satisfaction can be at a certain level, or both participants had the same or similar communication strategies. It is of course that to account for any of these compensatory behaviors, we must evaluate and study new data on these specific strategies. It is crucial to study the relationship with LDR and GCR through these mediums.
 
 ## Conclusion
+
+This study investigated the relationships between trust and relationship satisfaction in long-distance and geographically close relationships. While we hypothesized distinct patterns based on distance, the primary finding was a consistent positive correlation between trust and relationship satisfaction, as shown in correlation_table, underscoring trust's fundamental importance regardless of geographical proximity. @tbl-ttest-kable confirmed the differences are hard to infer without analyzing more information. Figure @anova-trust-figure showed the variables in action, but it does require further exploration of communication strategies and relationship characteristics. Although the findings underscore the key variables to improve relationships, the limitations did have significant impact on the reliability of these conclusions. Future research can analyze new variables and perform a new analysis. Ultimately, these findings reaffirm the importance of trust for lasting relationships, highlighting the need for further exploration of specific relational factors that can mediate trust to help relationships.
 
 # References
 
@@ -233,9 +460,4 @@ correlation_plot
 
 ::: {#refs}
 
-
 :::
-
-# Appendix
-
-# Title for Appendix
