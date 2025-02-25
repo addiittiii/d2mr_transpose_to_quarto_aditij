@@ -28,7 +28,7 @@ I have made a separate repository for this mini project. I have added both Yuche
 
 - About my previous unedited paper vs. my new paper:
 The paper I chose is a random work from my first year of undergrad. It is not formatted in APA and lacks structure. It has no visualization whatsoever and the tables have poor formatting. 
-Moreover, it does not comply to the manuscript formatting i.e no title page, etc. I aimed to change all that with this project and incorporate additional R skills to write the whole manuscript in R. 
+Moreover, it does not comply to the manuscript formatting i.e no title page, procedure section, participant section, dedicated measures sectionetc. I changed and added all of that with this project and incorporated additional R skills to upgrade the whole manuscript.   
 
 ## Additional information
 
