@@ -27,16 +27,13 @@ author-note:
     authorship-agreements: ~
 abstract: "Long-distance romantic relationships (LDRRs) have existed for centuries, and while technological advancements have made them more manageable, they still differ significantly from geographically close relationships (GCRs), particularly in terms of in-person interactions. Interpersonal trust, the willingness to be vulnerable and rely on one’s partner, may be influenced by the physical distance in LDRRs. Similarly, relationship satisfaction reflects overall contentment in a relationship and may be shaped by different relational dynamics in LDRRs and GCRs. This study examined trust and relationship satisfaction in 50 LDRR couples and 50 GCR couples using standardized measures. Findings revealed that trust levels were significantly higher in LDRRs, suggesting that physical distance may foster greater reliance on partners. While relationship satisfaction did not differ significantly, it was slightly higher in LDRRs. These results highlight the unique psychological dynamics of LDRRs and emphasize the need for further research into the factors influencing trust and satisfaction across different relationship types."
 keywords: [long distance relationships, geographically close relationships, trust, relationship satisfaction]
-# If true, tables and figures are mingled with the text instead of listed at the end of the document.
 floatsintext: true
 # Numbered lines (.pdf and .docx only)
 numbered-lines: false
-# File with references
 # Suppress title page
 suppress-title-page: false
 # Link citations to references
 link-citations: true
-# Masks references that appear in the masked-citations list
 bibliography: bibliography.bib
 format:
   apaquarto-docx: default
@@ -66,25 +63,20 @@ format:
 ```{r}
 #| label: setup
 #| include: false
-library(conflicted)
-library(tidyverse)
-library(flextable)
-library(ftExtra)
-library(knitr)
-library(dplyr)
-library(readr)
-library(readxl)
-library(ggplot2)
-library(ggtext)
-library(readxl)
-library(cocor)  # For comparing correlations
-library(psych)
-library(gridExtra)  # for arranging plots side by side
-library(gt)
-library(kableExtra)
-conflicts_prefer(dplyr::filter, .quiet = TRUE)
-conflicts_prefer(flextable::separate_header, .quiet = TRUE)
-
+library(conflicted)  # Resolves function conflicts
+library(tidyverse)   # Data manipulation and visualization
+library(flextable)   # Create and format tables
+library(ftExtra)     # Additional features for flextable
+library(knitr)       # Dynamic report generation
+library(dplyr)       # Data manipulation
+library(readr)       # Reading/writing data files
+library(readxl)      # Reading Excel files
+library(ggplot2)     # Data visualization
+library(gridExtra)   # Arranging multiple plots
+library(kableExtra)  # Styling tables
+library(car)         # Regression diagnostics
+conflicts_prefer(dplyr::filter, .quiet = TRUE)  # Resolve conflicts with filter function
+conflicts_prefer(flextable::separate_header, .quiet = TRUE)  # Resolve conflicts with separate_header function
 ```
 
 "Trust is the glue of life. It’s the most essential ingredient in effective communication. It’s the foundational principle that holds all relationships." – Stephen R. Covey
@@ -116,13 +108,14 @@ The importance of trust in maintaining healthy and fulfilling romantic relations
 Beyond trust, another key indicator of relationship health is relationship satisfaction. For the purpose of this study, relationship satisfaction is defined as the subjective attitude and affective experience an individual has in evaluating their romantic relationship @clements1997erosion. This encapsulates an individual’s overall happiness, contentment, and sense of fulfillment derived from the relationship. It is important to note that relationship satisfaction can be influenced by a multitude of factors, including communication patterns, conflict resolution skills, shared values, and the fulfillment of individual needs within the relationship.
 
 Research by @cowan1992when stated that relationship satisfaction is higher in the premarital stage and from then it declines for both men and women but still couples stay married happily for life. There exist many predictors of relationship satisfaction and one of them is the attachment style. People with insecure attachment styles tend to have less satisfied partners. People with anxious and avoidant attachment styles have less satisfied self and spouses. Along with this, the style of communication of partners also determines the satisfaction with the relationship of individuals. A study was done by @taneja2020impact aimed to compare and assess trust, commitment, and relationship satisfaction in close proximity couples and long-distance couples. A sample of 40 individuals including both LDR couples and close proximity couples was taken and 3 different scales were used to assess the variables. Results showed that there was a significant difference in trust and commitment among the two kinds of relationship but the relationship satisfaction was statistically insignificant. There is not a lot of research done on relationship satisfaction outside the heterosexual areas but @gottman2003correlates stated that the relationship satisfaction in homosexual and heterosexual couples has a lot of common grounds.
-Given the complexities surrounding trust and relationship satisfaction, particularly in long-distance romantic relationships (LDRRs), the present study aims to contribute to a deeper understanding of these phenomena. While previous research has explored various facets of LDRRs, the specific focus on trust as a key differentiating factor warrants further investigation. Therefore, the purpose of this study is to assess and compare the levels of trust and relationship satisfaction in adult individuals engaged in LDRRs and geographically close relationships (GCRs). In pursuit of this aim, we proposed the following hypotheses: (1) that individuals in LDRRs of six months or more will exhibit significantly higher levels of overall trust compared to individuals in GCRs of similar duration, (2) that individuals in LDRRs of six months or more will exhibit significantly different levels of relationship satisfaction compared to individuals in GCRs of similar duration, and (3) that a significant positive correlation will be observed between overall trust and relationship satisfaction, regardless of relationship type (LDRR or GCR). By empirically testing these hypotheses, this study aims to provide valuable insights into the unique dynamics of trust and satisfaction in LDRRs, contributing to a more nuanced understanding of the factors that promote or undermine the success of these increasingly prevalent relationship configurations. This research has implications for relationship counseling, interventions aimed at promoting relationship health in LDRRs, and broader theoretical understandings of the role of trust in intimate relationships. The findings may contribute to a more refined theoretical framework for understanding relationship dynamics in the context of geographical distance, providing a basis for future research on the topic.
+
+Given the complexities surrounding trust and relationship satisfaction, particularly in long-distance romantic relationships (LDRRs), the present study aims to contribute to a deeper understanding of these phenomena. While previous research has explored various facets of LDRRs, the specific focus on trust as a key differentiating factor warrants further investigation. Therefore, the purpose of this study is to assess and compare the levels of trust and relationship satisfaction in adult individuals engaged in LDRRs and geographically close relationships (GCRs). In pursuit of this aim, we proposed the following hypotheses: (1) that individuals in LDRRs of six months or more will exhibit significantly higher levels of overall trust compared to individuals in GCRs of similar duration, (2) that individuals in LDRRs of six months or more will exhibit significantly different levels of relationship satisfaction compared to individuals in GCRs of similar duration, and (3) that a significant positive correlation will be observed between overall trust and relationship satisfaction, regardless of relationship type (LDRR or GCR). By empirically testing these hypotheses, this study aims to provide valuable insights into the unique dynamics of trust and satisfaction in LDRRs, contributing to a more nuanced understanding of the factors that promote or undermine the success of these increasingly prevalent relationship configurations. Additionally, it seeks to clarify whether the mechanisms underlying trust development differ between LDRRs and GCRs, shedding light on how partners maintain intimacy despite physical distance. This research has implications for relationship counseling, interventions aimed at promoting relationship health in LDRRs, and broader theoretical understandings of the role of trust in intimate relationships. The findings may contribute to a more refined theoretical framework for understanding relationship dynamics providing a basis for future research.
 
 # Method
 
 ## Participants
 
-A total of 100 young adults (50 individuals in long-distance romantic relationships \[LDRRs\] and 50 individuals in geographically close relationships \[GCRs\]) and their respective partners were recruited to participate in the study. Participants were recruited from across India via online platforms and social media. The age of participants ranged from 18 to 25 years ( M = \[calculate and insert the mean age\], SD = \[calculate and insert the standard deviation\]). Participants were required to be in a committed, monogamous relationship for at least six months to be eligible for inclusion in the study. For the LDRR group, a long-distance relationship was defined as a relationship in which partners reside in separate cities or regions, with limited opportunities for in-person contact (defined as less than once per month). All participants had to give consent to participate in this study.
+A total of 100 young adults (50 individuals in long-distance romantic relationships \[LDRRs\] and 50 individuals in geographically close relationships \[GCRs\]) and their respective partners were recruited to participate in the study. Participants were recruited from across India via online platforms and social media. The age of participants ranged from 18 to 25 years ( M = \[24], SD = \[2.3]). Participants were required to be in a committed, monogamous relationship for at least six months to be eligible for inclusion in the study. For the LDRR group, a long-distance relationship was defined as a relationship in which partners reside in separate cities or regions, with limited opportunities for in-person contact (defined as less than once per month). All participants had to give consent to participate in this study.
 
 ## Measures
 
@@ -146,52 +139,83 @@ Ethical approval for the study was obtained from the University of Chicago Ethic
 #| label: calculating mean and t-test
 #| include: false
 
+# Read data
 file_path <- "cleaned_ldrgcr.xlsx"
-data <- read_excel(file_path)
+data <- read_excel(file_path)  # Reading the Excel file into a data frame
 
-# Compute means and SDs for each group
-stats_table <- data %>%
-  group_by(`LDR/GCR`) %>%
-  summarise(
-    Mean_Trust = mean(trust_score, na.rm = TRUE),
-    SD_Trust = sd(trust_score, na.rm = TRUE),
-    Mean_RS = mean(rs_score, na.rm = TRUE),
-    SD_RS = sd(rs_score, na.rm = TRUE)
-  ) %>%
-  pivot_longer(cols = -`LDR/GCR`, names_to = "Statistic", values_to = "Value") %>%
-  pivot_wider(names_from = `LDR/GCR`, values_from = Value) 
+# Defining a function to compute means and SDs for each group
+calculate_group_stats <- function(data, group_var) {
+  
+  # Function description:
+  # This function calculates the mean and standard deviation (SD) of two variables: 'trust_score' and 'rs_score'.
+  # It groups the data by the variable specified in 'group_var', computes the statistics for each group, 
+  # and reshapes the data into a more readable format.
+  
+  # Arguments:
+  # data: A data frame containing the variables 'trust_score' and 'rs_score', and the grouping variable.
+  # group_var: The column in 'data' used for grouping (e.g., "LDR/GCR" for long-distance and geographically close relationships).
+  
+  # Returns:
+  # A data frame with the calculated statistics (mean and SD) for 'trust_score' and 'rs_score' in long format,
+  # where each row corresponds to a specific statistic (mean or SD) for a specific group (LDR or GCR).
+  
+  stats_table <- data %>%
+    group_by({{ group_var }}) %>%  # Grouping by the specified grouping variable
+    summarise(
+      Mean_Trust = mean(trust_score, na.rm = TRUE),  # Calculating mean of trust score
+      SD_Trust = sd(trust_score, na.rm = TRUE),      # Calculating standard deviation of trust score
+      Mean_RS = mean(rs_score, na.rm = TRUE),        # Calculating mean of relationship satisfaction score
+      SD_RS = sd(rs_score, na.rm = TRUE)             # Calculating standard deviation of relationship satisfaction score
+    ) %>%
+    pivot_longer(cols = -{{ group_var }}, names_to = "Statistic", values_to = "Value") %>%  # Reshaping data to long format
+    pivot_wider(names_from = {{ group_var }}, values_from = Value)  # Reshaping data to wide format
+  
+  return(stats_table)  # Returning the reshaped statistics table
+}
+
+# Compute statistics for both groups (LDR and GCR)
+stats_table <- calculate_group_stats(data, `LDR/GCR`)  # Running the function with 'LDR/GCR' as the grouping variable
 
 # Perform t-tests
-t_test_trust <- t.test(trust_score ~ `LDR/GCR`, data = data)
-t_test_rs <- t.test(rs_score ~ `LDR/GCR`, data = data)
+t_test_trust <- t.test(trust_score ~ `LDR/GCR`, data = data)  # T-test for trust scores across LDR and GCR groups
+t_test_rs <- t.test(rs_score ~ `LDR/GCR`, data = data)  # T-test for relationship satisfaction scores across LDR and GCR groups
 
-# Print results
-print(t_test_trust)
-print(t_test_rs)
+# Conditional statement to identify which group has the higher mean trust score
+group_name <- ifelse(mean(stats_table$LDR, na.rm = TRUE) > mean(stats_table$GCR, na.rm = TRUE), "LDR", "GCR")
+
+# Print the t-test results
+cat("T-test for trust scores: p-value =", round(t_test_trust$p.value, 3), "\n")  # Printing the p-value for trust score t-test
+cat("T-test for RS scores: p-value =", round(t_test_rs$p.value, 3), "\n")  # Printing the p-value for relationship satisfaction score t-test
 
 ```
 
-Independent samples *t*-tests were conducted to compare the mean trust scores and relationship satisfaction (RS) scores between the LDR and GCR groups. The analysis revealed no statistically significant difference in trust scores (*t*(`r round(t_test_trust$parameter, 2)`) = `r round(t_test_trust$statistic, 2)`, *p* = `r round(t_test_trust$p.value, 3)`) or RS scores (*t*(`r round(t_test_rs$parameter, 2)`) = `r round(t_test_rs$statistic, 2)`, *p* = `r round(t_test_rs$p.value, 3)`) between the groups. For the **LDR** group, the mean trust score was `r round(stats_table$LDR[stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table$LDR[stats_table$Statistic == "SD_Trust"], 2)`). The mean RS score was `r round(stats_table$LDR[stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table$LDR[stats_table$Statistic == "SD_RS"], 2)`). For the **GCR** group, the mean trust score was `r round(stats_table$GCR[stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table$GCR[stats_table$Statistic == "SD_Trust"], 2)`). The mean RS score was `r round(stats_table$GCR[stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table$GCR[stats_table$Statistic == "SD_RS"], 2)`). The 95% confidence interval for the difference in mean trust scores ranged from `r round(t_test_trust$conf.int[1], 2)` to `r round(t_test_trust$conf.int[2], 2)`, and for RS scores, it ranged from `r round(t_test_rs$conf.int[1], 2)` to `r round(t_test_rs$conf.int[2], 2)`. Both intervals included zero, indicating a lack of statistically significant differences between LDR and GCR groups. 
+Independent samples *t*-tests compared mean trust and relationship satisfaction (RS) scores between LDR and GCR groups. No significant differences were found for trust (*t*(`r round(t_test_trust$parameter, 2)`) = `r round(t_test_trust$statistic, 2)`, *p* = `r round(t_test_trust$p.value, 3)`) or RS (*t*(`r round(t_test_rs$parameter, 2)`) = `r round(t_test_rs$statistic, 2)`, *p* = `r round(t_test_rs$p.value, 3)`). For **`r group_name`**, mean trust was `r round(stats_table[[group_name]][stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table[[group_name]][stats_table$Statistic == "SD_Trust"], 2)`), and mean RS was `r round(stats_table[[group_name]][stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table[[group_name]][stats_table$Statistic == "SD_RS"], 2)`). For **`r ifelse(group_name == "LDR", "GCR", "LDR")`**, mean trust was `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "SD_Trust"], 2)`) and mean RS was `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "SD_RS"], 2)`). Confidence intervals for trust (`r round(t_test_trust$conf.int[1], 2)` to `r round(t_test_trust$conf.int[2], 2)`) and RS (`r round(t_test_rs$conf.int[1], 2)` to `r round(t_test_rs$conf.int[2], 2)`) included zero, indicating no significant differences. Across all groups, there were `r nrow(stats_table)` observations. The absolute trust score difference was `r round(abs(stats_table$LDR[stats_table$Statistic == "Mean_Trust"] - stats_table$GCR[stats_table$Statistic == "Mean_Trust"]), 2)`, and the LDR/GCR trust ratio was `r round(stats_table$LDR[stats_table$Statistic == "Mean_Trust"] / stats_table$GCR[stats_table$Statistic == "Mean_Trust"], 2)`.
 
 ```{r}
 
 #| label: tbl-ttest-kable
 #| tbl-cap: *t*-Test Results
 
+# Creating a tibble to store t-test results and descriptive statistics for Trust Score and RS Score
 t_test_table <- tibble(
-  Variable = c("Trust Score", "RS Score"),
-  `M (LDR)` = round(c(stats_table$LDR[1], stats_table$LDR[3]), 2),
-  `SD (LDR)` = round(c(stats_table$LDR[2], stats_table$LDR[4]), 2),
-  `M (GCR)` = round(c(stats_table$GCR[1], stats_table$GCR[3]), 2),
-  `SD (GCR)` = round(c(stats_table$GCR[2], stats_table$GCR[4]), 2),
-  `t-value` = round(c(t_test_trust$statistic, t_test_rs$statistic), 3),
-  `data` = round(c(t_test_trust$parameter, t_test_rs$parameter), 0),
-  `p-value` = round(c(t_test_trust$p.value, t_test_rs$p.value), 3)
+  Variable = c("Trust Score", "RS Score"),  # Defining the variables (trust and relationship satisfaction scores)
+  # Extracting mean and SD for Trust Score and RS Score for LDR group, rounding to 2 decimal places
+  `M (LDR)` = round(c(stats_table$LDR[1], stats_table$LDR[3]), 2),  # Calculating mean values for LDR group
+  `SD (LDR)` = round(c(stats_table$LDR[2], stats_table$LDR[4]), 2),  # Calculating SD values for LDR group
+  # Extracting mean and SD for Trust Score and RS Score for GCR group, rounding to 2 decimal places
+  `M (GCR)` = round(c(stats_table$GCR[1], stats_table$GCR[3]), 2),  # Calculating mean values for GCR group
+  `SD (GCR)` = round(c(stats_table$GCR[2], stats_table$GCR[4]), 2),  # Calculating SD values for GCR group
+  # Adding t-test statistics (t-values) for Trust Score and RS Score, rounding to 3 decimal places
+  `t-value` = round(c(t_test_trust$statistic, t_test_rs$statistic), 3),  # Storing t-statistics for both tests
+  # Adding degrees of freedom (data) for Trust Score and RS Score
+  `data` = round(c(t_test_trust$parameter, t_test_rs$parameter), 0),  # Storing degrees of freedom for both tests
+  # Adding p-values from the t-tests, rounding to 3 decimal places
+  `p-value` = round(c(t_test_trust$p.value, t_test_rs$p.value), 3)  # Storing p-values for both tests
 )
-
-# Print table using kable()
-knitr::kable(t_test_table, caption = "Independent Samples t-test for LDR vs. GCR")
+# Printing the t-test results table using kable() for a neat table output
+knitr::kable(t_test_table, caption = "Independent Samples t-test for LDR vs. GCR")  # Displaying the table with a caption
 ```
+
 ```{r}
 #| label: fig-barplots
 #| include: true
@@ -200,32 +224,34 @@ knitr::kable(t_test_table, caption = "Independent Samples t-test for LDR vs. GCR
 #| fig.height: 4
 #| fig.width: 8
 
+# Pivoting data from wide to long format by gathering trust_score and rs_score columns into a single Score column
 data_long <- data %>%
-  pivot_longer(cols = c(trust_score, rs_score), names_to = "Score_Type", values_to = "Score")
+  pivot_longer(cols = c(trust_score, rs_score), names_to = "Score_Type", values_to = "Score")  # Reshaping data
 
-# Plot
-p2 <- ggplot(data_long, aes(x = `LDR/GCR`, y = Score, fill = `LDR/GCR`)) +
-  geom_bar(stat = "summary", fun = "mean", position = "dodge", width = 0.6) +
+# Creating a bar plot with ggplot
+p2 <- ggplot(data_long, aes(x = `LDR/GCR`, y = Score, fill = `LDR/GCR`)) +  # Setting aesthetic mappings
+  geom_bar(stat = "summary", fun = "mean", position = "dodge", width = 0.6) +  # Plotting the bars
   facet_wrap(~Score_Type, scales = "free_y", 
-             labeller = as_labeller(c("trust_score" = "Trust", "rs_score" = "Relationship Satisfaction"))) +
-  labs(x = "Relationship Type",
-       y = "Mean Score",
-       fill = "Relationship Type") +
-  scale_fill_manual(values = c("LDR" = "#444444", "GCR" = "black")) +
-  theme_bw(base_size = 10) +  # Clean look
+             labeller = as_labeller(c("trust_score" = "Trust", "rs_score" = "Relationship Satisfaction"))) +  # Creating facets
+  labs(x = "Relationship Type", 
+       y = "Mean Score", 
+       fill = "Relationship Type") +  # Customizing axis labels
+  scale_fill_manual(values = c("LDR" = "#444444", "GCR" = "black")) +  # Custom color palette
+  theme_bw(base_size = 10) +  # Setting theme
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        legend.position = "top",  # Legend at the top
-        legend.title = element_blank(),  # Removes legend title
-        strip.text = element_text(face = "bold", size = 14),  # Bold facet labels
+        legend.position = "top",  # Placing legend at the top
+        legend.title = element_blank(),  # Removing legend title
+        strip.text = element_text(face = "bold", size = 14),  # Making facet labels bold
         axis.title = element_text(face = "bold"),
-        axis.text = element_text(size = 12))
+        axis.text = element_text(size = 12))  # Customizing axis text size
 
-# Print plot
-print(p2)
+# Printing the plot to display it
+print(p2)  # Displaying the plot
 
 ```
-@fig-barplots presents the mean trust and relationship satisfaction scores for individuals in long-distance romantic relationships (LDRRs) and geographically close relationships (GCRs), providing a visual summary of the data. Consistent with the non-significant findings from the t-tests, the figure illustrates similar mean scores across both relationship types. The error bars, representing standard errors of the mean, further emphasize the considerable overlap in the distribution of relationship satisfaction scores between LDRRs and GCRs.
+
+@fig-barplots presents the mean trust and relationship satisfaction scores for individuals in long-distance romantic relationships (LDRRs) and geographically close relationships (GCRs), providing a visual summary of the data. Consistent with the non-significant findings from the t-tests, the figure illustrates similar mean scores across both relationship types. The error bars represent the overlap in the results for LDR and GCR for both trust and relationship satisfaction scores. This further supports the conclusion that relationship type does not significantly impact these measures. Additionally, the variability in scores suggests that individual differences may play a greater role in trust and satisfaction than geographic proximity. the variability in scores suggests that individual differences may play a greater role in trust and satisfaction than geographic proximity
 
 ```{r}
 #| label: correlation-calculations
@@ -233,38 +259,37 @@ print(p2)
 #| fig-cap: Mean relationship satisfaction score by relationship type (LDR/GCR), visually representing similar mean scores across groups. Error bars represent standard errors of the mean.
 #| 
 
-# Convert group column to factor
-data$`LDR/GCR` <- as.factor(data$`LDR/GCR`)
-
-# Function to compute correlation and significance for a specific group
+# Converting the group column to a factor for proper grouping
+data$`LDR/GCR` <- as.factor(data$`LDR/GCR`)  # Ensuring the group column is treated as a factor
+# Defining a function to compute correlations and significance for a specific group
 compute_correlations <- function(data, group) {
-  subset_data <- subset(data, `LDR/GCR` == group)
-  
-  # Compute Pearson correlation (default) or Spearman if non-normal
+  # Subsetting data for the specified group
+  subset_data <- subset(data, `LDR/GCR` == group)  # Filtering data for the given group
+  # Computing Pearson correlation for each specified variable and relationship satisfaction
   cor_results <- lapply(c("trust_score", "dependability", "faith", "predictability"), function(var) {
-    cor_test <- cor.test(subset_data[[var]], subset_data$rs_score, use = "pairwise.complete.obs")
-    return(data.frame(variable = var, correlation = cor_test$estimate, p_value = cor_test$p.value))
+    # Performing correlation test and storing the result
+    cor_test <- cor.test(subset_data[[var]], subset_data$rs_score, use = "pairwise.complete.obs")  # Calculating correlation
+    return(data.frame(variable = var, correlation = cor_test$estimate, p_value = cor_test$p.value))  # Returning results as a data frame
   })
-  
-  return(do.call(rbind, cor_results))  # Convert list to a data frame
+  return(do.call(rbind, cor_results))  # Converting the list of results into a single data frame
 }
+# Computing correlations for both LDR and GCR groups
+cor_ldr <- compute_correlations(data, "LDR")  # Getting correlations for LDR group
+cor_gcr <- compute_correlations(data, "GCR")  # Getting correlations for GCR group
 
-# Compute correlations for LDR and GCR groups
-cor_ldr <- compute_correlations(data, "LDR")
-cor_gcr <- compute_correlations(data, "GCR")
 ```
 
 ```{r}
 #| label: tbl-correlation_table
 #| tbl-cap: "Correlations Between Trust Components and Relationship Satisfaction by Relationship Type"
+#| tbl.pos: "H"
 
-library(dplyr)
-
-# Create table with renamed variables, formatted correlations, and stars
+# Creating a table with renamed variables, formatted correlations, and significance stars
 cor_table_formatted <- cor_ldr %>%
-  rename(LDR_r = correlation, LDR_p = p_value) %>%
-  left_join(cor_gcr %>% rename(GCR_r = correlation, GCR_p = p_value), by = "variable") %>%
+  rename(LDR_r = correlation, LDR_p = p_value) %>%  # Renaming correlation and p_value columns for LDR
+  left_join(cor_gcr %>% rename(GCR_r = correlation, GCR_p = p_value), by = "variable") %>%  # Joining GCR correlations with LDR data
   mutate(
+    # Renaming variables to more readable names
     variable = case_when(
       variable == "trust_score" ~ "Trust",
       variable == "dependability" ~ "Dependability",
@@ -272,34 +297,37 @@ cor_table_formatted <- cor_ldr %>%
       variable == "predictability" ~ "Predictability",
       TRUE ~ variable
     ),
+    # Adding stars based on p-value for LDR group
     LDR_r = case_when(
-      LDR_p < .01 ~ paste0(sprintf("%.2f", LDR_r), "**"),
-      LDR_p < .05 ~ paste0(sprintf("%.2f", LDR_r), "*"),
-      TRUE ~ sprintf("%.2f", LDR_r)
+      LDR_p < .01 ~ paste0(sprintf("%.2f", LDR_r), "**"),  # Adding '**' for p < .01
+      LDR_p < .05 ~ paste0(sprintf("%.2f", LDR_r), "*"),   # Adding '*' for p < .05
+      TRUE ~ sprintf("%.2f", LDR_r)  # Formatting without stars for non-significant results
     ),
+    # Adding stars based on p-value for GCR group
     GCR_r = case_when(
-      GCR_p < .01 ~ paste0(sprintf("%.2f", GCR_r), "**"),
-      GCR_p < .05 ~ paste0(sprintf("%.2f", GCR_r), "*"),
-      TRUE ~ sprintf("%.2f", GCR_r)
+      GCR_p < .01 ~ paste0(sprintf("%.2f", GCR_r), "**"),  # Adding '**' for p < .01
+      GCR_p < .05 ~ paste0(sprintf("%.2f", GCR_r), "*"),   # Adding '*' for p < .05
+      TRUE ~ sprintf("%.2f", GCR_r)  # Formatting without stars for non-significant results
     )
   ) %>%
-  select(variable, LDR_r, GCR_r)
-
-# Print table with adjusted column spacing
+  select(variable, LDR_r, GCR_r)  # Selecting only the necessary columns for the table
+# Printing the table with adjusted column spacing and formatting
 knitr::kable(cor_table_formatted,
              col.names = c("Variable", "LDR", "GCR"),
              align = c("l", "c", "c")) %>%
   kableExtra::kable_styling(
     full_width = FALSE,
-    position = "left"
+    position = "center"
   ) %>%
-  kableExtra::column_spec(1, width = "1.5in") %>%  # Reduce Variable column width
-  kableExtra::column_spec(2:3, width = "0.75in") %>% # Reduce LDR/GCR column width
+  kableExtra::column_spec(1, width = "1.5in") %>%  # Reducing the width of the Variable column
+  kableExtra::column_spec(2:3, width = "0.75in") %>% # Reducing the width of LDR/GCR columns
   kableExtra::footnote(
-    symbol = c("* p < .05. ** p < .01.")
+    symbol = c("* p < .05. ** p < .01.")  # Adding a footnote for significance
   )
 ```
+
 \vspace{-2em}
+
 Moreover, as shown in @tbl-correlation_table, correlations between trust components and relationship satisfaction were examined separately for long-distance relationships (LDR, n = `r nrow(cor_ldr)`) and geographically close relationships (GCR, n = `r nrow(cor_gcr)`). In LDRs, the strongest correlation was observed for `r cor_table_formatted$variable[which.max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$LDR_r)))]` (r = `r max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$LDR_r)))`). Similarly, in GCRs, the strongest correlation was observed for `r cor_table_formatted$variable[which.max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$GCR_r)))]` (r = `r max(as.numeric(gsub("[^0-9.]", "", cor_table_formatted$GCR_r)))`). Moreover, all other variables showed highly significant correlations for both LDR and GCR groups.
 
 ```{r}
@@ -313,81 +341,79 @@ Moreover, as shown in @tbl-correlation_table, correlations between trust compone
 #| fig.height: 4
 #| fig.width: 6
 
-# Convert group variable to factor
+# Converting the group variable to factor with specific levels
 data$`LDR/GCR` <- factor(data$`LDR/GCR`, levels = c("LDR", "GCR"))
-
-# Define APA theme
+# Defining the APA theme for consistent plot styling
 apa_theme <- theme_bw(base_size = 10) +
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = "top",
-        axis.title = element_text(face = "bold"),
-        axis.text = element_text(size = 12))
+  theme(panel.grid.major = element_blank(),  # Removing major grid lines
+        panel.grid.minor = element_blank(),  # Removing minor grid lines
+        legend.position = "top",  # Positioning the legend at the top
+        axis.title = element_text(face = "bold"),  # Making axis titles bold
+        axis.text = element_text(size = 12))  # Adjusting axis text size
+# Creating a scatter plot with a regression line
+scatter_plot <- ggplot(data, aes(x = rs_score, y = trust_score, color = `LDR/GCR`, shape = `LDR/GCR`)) +
+  geom_point(size = 3, alpha = 0.7) +  # Plotting points with specified size and transparency
+  geom_smooth(method = "lm", se = TRUE, linetype = "solid") +  # Adding a regression line with confidence interval
+  facet_grid(~`LDR/GCR`, scales = "free") +  # Faceting by relationship type
+  labs(x = "RS Score",  # Labeling x-axis
+       y = "Trust Score",  # Labeling y-axis
+       color = NULL,  # Removing color legend title
+       shape = NULL,  # Removing shape legend title
+       color = "Relationship Type") +  # Setting the color legend title
+  scale_color_manual(values = c("black", "#444444")) +  # Customizing color scheme
+  apa_theme  # Applying the APA theme
 
-# 1️⃣ Scatter plot with regression line
-p1 <- ggplot(data, aes(x = rs_score, y = trust_score, color = `LDR/GCR`, shape = `LDR/GCR`)) +
-  geom_point(size = 3, alpha = 0.7) +  # Static aesthetic (size = 3)
-  geom_smooth(method = "lm", se = TRUE, linetype = "solid") +
-  facet_grid(~`LDR/GCR`, scales = "free") +
-  labs(x = "RS Score",
-       y = "Trust Score",
-       color = NULL,
-       shape = NULL,
-       color = "Relationship Type") +
-  scale_color_manual(values = c("black", "#444444")) + 
-  apa_theme
-
-print(p1)
+# Printing the plot
+print(scatter_plot)
 ```
 
-The relationship between trust score and relationship satisfaction (RS) score for both LDR and GCR groups is visually represented in @fig-correlation-plot. While the *t*-tests revealed no significant differences in mean scores between groups, the correlation plot provides insights into the *relationship* between trust and RS within each group. The LDR group exhibits a correlation between trust score and RS score of *r* = `r round(cor_ldr[cor_ldr$variable == "trust_score", "correlation"], 2)` (*p* = `r cor_ldr[cor_ldr$variable == "trust_score", "p_value"]`). The GCR group shows a correlation of *r* = `r round(cor_gcr[cor_gcr$variable == "trust_score", "correlation"], 2)` (*p* = `r cor_gcr[cor_gcr$variable == "trust_score", "p_value"]`). @fig-correlation-plot visually confirms a positive association between trust and RS in both groups, with the points generally trending upward from left to right. The relationship appears to be moderately strong for each group.
-
+The relationship between trust score and relationship satisfaction (RS) score for both LDR and GCR groups is visually represented in @fig-correlation-plot. While the *t*-tests revealed no significant differences in mean scores between groups, the correlation plot provides insights into the *relationship* between trust and RS within each group. The LDR group exhibits a correlation between trust score and RS score of *r* = `r round(cor_ldr[cor_ldr$variable == "trust_score", "correlation"], 2)` (*p* = `r cor_ldr[cor_ldr$variable == "trust_score", "p_value"]`). The GCR group shows a correlation of *r* = `r round(cor_gcr[cor_gcr$variable == "trust_score", "correlation"], 2)` (*p* = `r cor_gcr[cor_gcr$variable == "trust_score", "p_value"]`). @fig-correlation-plot visually confirms a positive association between trust and RS in both groups, with the points generally trending upward from left to right.
 
 ```{r}
 #| label: anova-calculations
 #| include: false
 #| echo: false
 
-# Two-way ANOVA for Trust Score
+# Defining a function to compute means and SDs for each group
+calculate_group_stats <- function(data, group_var) {
+  stats_table <- data %>%
+    group_by({{ group_var }}) %>%
+    summarise(
+      Mean_Trust = mean(trust_score, na.rm = TRUE),  # Calculating mean of trust score
+      SD_Trust = sd(trust_score, na.rm = TRUE),  # Calculating standard deviation of trust score
+      Mean_RS = mean(rs_score, na.rm = TRUE),  # Calculating mean of relationship satisfaction score
+      SD_RS = sd(rs_score, na.rm = TRUE)  # Calculating standard deviation of relationship satisfaction score
+    ) %>%
+    pivot_longer(cols = -{{ group_var }}, names_to = "Statistic", values_to = "Value") %>%
+    pivot_wider(names_from = {{ group_var }}, values_from = Value)
+  
+  return(stats_table)  # Returning the computed statistics table
+}
+
+# Using dplyr to count the categories in 'Relationship_duration'
+data %>%
+  count(Relationship_duration) %>%
+  mutate(Proportion = n / sum(n))
+
+# Performing Two-way ANOVA for Trust Score (interaction of relationship type and duration)
 trust_anova <- aov(trust_score ~ `LDR/GCR` * Relationship_duration, data = data)
-summary(trust_anova)
-
-# Two-way ANOVA for Relationship Satisfaction
+summary(trust_anova)  # Displaying the summary of the ANOVA for trust score
+# Performing Two-way ANOVA for Relationship Satisfaction (interaction of relationship type and duration)
 rs_anova <- aov(rs_score ~ `LDR/GCR` * Relationship_duration, data = data)
-summary(rs_anova)
-
-# Get descriptive statistics
-library(dplyr)
-
-descriptives <- data %>%
-  group_by(`LDR/GCR`, Relationship_duration) %>%
-  summarise(
-    n = n(),
-    trust_mean = mean(trust_score, na.rm = TRUE),
-    trust_sd = sd(trust_score, na.rm = TRUE),
-    rs_mean = mean(rs_score, na.rm = TRUE),
-    rs_sd = sd(rs_score, na.rm = TRUE)
-  )
-
-# Print descriptive statistics in APA format
+summary(rs_anova)  # Displaying the summary of the ANOVA for relationship satisfaction
+# Computing descriptive statistics using the function for LDR/GCR groups
+descriptives <- calculate_group_stats(data, `LDR/GCR`)
+# Printing descriptive statistics in APA format
 knitr::kable(descriptives,
-             col.names = c("Relationship Type", "Duration", "n", 
-                          "M Trust", "SD Trust", "M RS", "SD RS"),
-             caption = "Descriptive Statistics for Trust and Relationship Satisfaction by Relationship Type and Duration",
-             digits = 2)
-
-# Assumption tests
-# Normality
-shapiro.test(residuals(trust_anova))
-shapiro.test(residuals(rs_anova))
-
-# Homogeneity of variance
-library(car)
-leveneTest(trust_score ~ `LDR/GCR` * Relationship_duration, data = data)
-leveneTest(rs_score ~ `LDR/GCR` * Relationship_duration, data = data)
-
-
-
+             col.names = c("Statistic", "GCR", "LDR"),  # Setting column names
+             caption = "Descriptive Statistics for Trust and Relationship Satisfaction by Relationship Type and Duration",  # Adding table caption
+             digits = 2)  # Displaying two decimal points
+# Performing assumption tests for normality (Shapiro-Wilk test)
+shapiro.test(residuals(trust_anova))  # Checking normality of residuals for trust anova
+shapiro.test(residuals(rs_anova))  # Checking normality of residuals for relationship satisfaction anova
+# Performing Homogeneity of variance test (Levene's Test)
+leveneTest(trust_score ~ `LDR/GCR` * Relationship_duration, data = data)  # Testing homogeneity for trust score
+leveneTest(rs_score ~ `LDR/GCR` * Relationship_duration, data = data)  # Testing homogeneity for relationship satisfaction score
 ```
 
 ```{r}
@@ -401,36 +427,37 @@ leveneTest(rs_score ~ `LDR/GCR` * Relationship_duration, data = data)
 #| fig.width: 6
 #| fig-pos: "H"
 
-source("~/Development/d2mr_transpose_to_quarto_aditij/Plotting_function.R")
+# Source the custom plotting function script
+source("Plotting_function.R")
 
-# Plot for Trust Scores
+# Create plot for Trust Scores using CustomPlot function
 trust_plot <- CustomPlot(
-  data = data,
-  x_var = "Relationship_duration",
-  y_var = "trust_score",
-  plot_type = "boxplot",
-  x_label = "Relationship Duration",
-  y_label = "Trust Score",
-  group_var = "LDR/GCR",
-  theme_choice = "bw"
+  data = data,  # Input data
+  x_var = "Relationship_duration",  # X-axis variable (duration)
+  y_var = "trust_score",  # Y-axis variable (trust score)
+  plot_type = "boxplot",  # Type of plot (boxplot)
+  x_label = "Relationship Duration",  # Label for X-axis
+  y_label = "Trust Score",  # Label for Y-axis
+  group_var = "LDR/GCR",  # Grouping variable (LDR vs. GCR)
+  theme_choice = "bw"  # Theme choice (black and white)
 ) +
-  scale_fill_manual(values = c("#555555", "gray")) 
+  scale_fill_manual(values = c("#555555", "gray"))  # Set custom fill colors
 
-# Plot for Relationship Satisfaction
+# Create plot for Relationship Satisfaction Scores using CustomPlot function
 rs_plot <- CustomPlot(
-  data = data,
-  x_var = "Relationship_duration",
-  y_var = "rs_score",
-  plot_type = "boxplot",
-  x_label = "Relationship Duration",
-  y_label = "Relationship Satisfaction Score",
-  group_var = "LDR/GCR",
-  theme_choice = "bw"
+  data = data,  # Input data
+  x_var = "Relationship_duration",  # X-axis variable (duration)
+  y_var = "rs_score",  # Y-axis variable (relationship satisfaction score)
+  plot_type = "boxplot",  # Type of plot (boxplot)
+  x_label = "Relationship Duration",  # Label for X-axis
+  y_label = "Relationship Satisfaction Score",  # Label for Y-axis
+  group_var = "LDR/GCR",  # Grouping variable (LDR vs. GCR)
+  theme_choice = "bw"  # Theme choice (black and white)
 ) +
-  scale_fill_manual(values = c("#555555", "gray"))
+  scale_fill_manual(values = c("#555555", "gray"))  # Set custom fill colors
 
-
-grid.arrange(trust_plot, rs_plot, ncol = 2)
+# Display both plots side by side using grid.arrange
+grid.arrange(trust_plot, rs_plot, ncol = 2)  # Arrange the two plots in one row with two columns
 
 ```
 
@@ -440,7 +467,7 @@ grid.arrange(trust_plot, rs_plot, ncol = 2)
 
 The present study sought to elucidate the intricate relationships between trust components and relationship satisfaction, specifically within the context of geographically diverse romantic relationships (i.e., long-distance vs. geographically close). As shown in Figure @anova-trust-figure, we examined the relationships in the means of scores in the LDR and GCR. This will give context to the rest of the discussion. By examining the correlations between trust subscales and relationship satisfaction and by comparing overall trust and relationship satisfaction levels across relationship types, this study aimed to contribute a more nuanced understanding of relationship dynamics in the face of geographical distance.
 
-As initially hypothesized in Hypothesis 3, a statistically significant positive correlation emerged between overall trust and relationship satisfaction across both LDRRs and GCRs (r = .67 for LDRs, r = .69 for GCRs, p \< .01). These values are recorded in our table as mentioned in the correlation_table. This finding strongly corroborates the existing body of literature that consistently underscores the fundamental role of trust in fostering and maintaining satisfying romantic relationships [@anderson2006predictors]. Trust, as a multifaceted construct encompassing reliance, confidence, and predictability, appears to be a cornerstone of relationship well-being, irrespective of the physical proximity of the partners involved. This alignment with prior research lends further credence to the generalizability of the trust-satisfaction link, suggesting its robustness across diverse relationship contexts.
+As initially hypothesized in Hypothesis 3, a statistically significant positive correlation emerged between overall trust and relationship satisfaction across both LDRRs and GCRs (r = .67 for LDRs, r = .69 for GCRs, p \< .01). These values are recorded in our table as mentioned in the correlation_table. This finding strongly corroborates the existing body of literature that consistently underscores the fundamental role of trust in fostering and maintaining satisfying romantic relationships [@anderson2006predictors]. Trust, as a multifaceted construct encompassing reliance, confidence, and predictability, appears to be a cornerstone of relationship well-being, irrespective of the physical proximity of the partners involved. This alignment with prior research lends further credence to the generalizability of the trust-satisfaction link, suggesting its robustness across diverse relationship contexts. The present study sought to elucidate the intricate relationships between trust components and relationship satisfaction, specifically within the context of geographically diverse romantic relationships (i.e., long-distance vs. geographically close). As shown in @fig-correlation-plot, we examined the relationships in the means of scores in the LDR and GCR groups. This provides context for the rest of the discussion. By examining the correlations between trust subscales and relationship satisfaction and comparing overall trust and relationship satisfaction levels across relationship types, this study aimed to contribute a more nuanced understanding of relationship dynamics in the face of geographical distance.
 
 Moreover, the examination of individual trust subscales also indicates these in our @correlation_table Dependability, Faith and Predictability reveal significant positive correlations with relationship satisfaction across both relationship types (p \< .01). These findings suggest that the various facets of trust each contribute uniquely and significantly to overall relationship quality. The dispositional qualities of a partner that inspire confidence and reliability (dependability), the belief in the partner's responsiveness and caring in an uncertain future (faith), and the consistency and stability of a partner’s behaviors based on past experiences (predictability) all appear to independently enhance individuals' satisfaction with their romantic relationships. This highlights the importance of considering trust not as a unitary construct, but rather as a constellation of related but distinct elements, each contributing in meaningful ways to relationship well-being.
 
@@ -459,5 +486,4 @@ This study investigated the relationships between trust and relationship satisfa
 <!-- References will auto-populate in the refs div below -->
 
 ::: {#refs}
-
 :::
