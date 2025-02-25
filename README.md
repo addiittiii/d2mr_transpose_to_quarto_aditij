@@ -23,10 +23,10 @@ This project investigates the relationships between trust and relationship satis
 
 *   **R:** (Version 4.0 or higher is recommended) Required for statistical analysis and plot generation.
 *   **Quarto:** (Version 1.3 or higher is recommended)  Required for document rendering.
-*   **Pandoc:** (Version 2.11 or higher is recommended) Required for DOCX/PDF conversion.  Quarto generally manages Pandoc.
+*   **Pandoc:** (Version 2.11 or higher is recommended) Required for PDF conversion.  Quarto generally manages Pandoc.
 *   **R Packages:** The following R packages are used in the analysis. Install these packages using `install.packages()` in R:
     *   `tidyverse`: For data manipulation and visualization.
-    *   `flextable`: For creating publication-quality tables (DOCX compatible).
+    *   `flextable`: For creating publication-quality tables.
     *   `knitr`: For dynamic report generation.
     *   `dplyr`: For data manipulation.
     *   `readr`: For reading and writing data files.
@@ -74,7 +74,7 @@ This project investigates the relationships between trust and relationship satis
         quarto render LDR_vs_GCR_paper.qmd --to html
         ```
 
-    The output file (`LDR_vs_GCR_paper.docx`, `LDR_vs_GCR_paper.pdf`, or `LDR_vs_GCR_paper.html`) will be created in the same directory as the `.qmd` file.
+    The output file (`LDR_vs_GCR_paper.pdf`, or `LDR_vs_GCR_paper.html`) will be created in the same directory as the `.qmd` file.
 
 ## Data
 
