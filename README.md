@@ -93,7 +93,7 @@ The analysis is performed using R code embedded within the `LDR_vs_GCR_paper.qmd
 ## Troubleshooting
 
 *   **Missing Packages:** If you encounter errors related to missing R packages, make sure you have installed all the required packages using `install.packages()`.
-*   **Pandoc Issues:** If you encounter errors related to DOCX or PDF rendering, make sure you have a recent version of Pandoc installed and that it's in your system's PATH. Quarto usually handles this.
+*   **Pandoc Issues:** If you encounter errors related to PDF rendering, make sure you have a recent version of Pandoc installed and that it's in your system's PATH. Quarto usually handles this.
 *   **`apaquarto` Errors:** If you encounter errors related to the `apaquarto` extension, try updating the extension or simplifying your figure and table captions. Check the apaquarto documentation for more information on APA style and the settings needed for quarto.  Be sure that figure cross-references are working.
 *   **Character encoding issues:** Excel and R may sometimes cause problems.  Be sure that column headers do not contain special characters.
 
