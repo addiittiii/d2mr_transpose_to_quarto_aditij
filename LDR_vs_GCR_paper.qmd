@@ -187,6 +187,17 @@ group_name <- ifelse(mean(stats_table$LDR, na.rm = TRUE) > mean(stats_table$GCR,
 cat("T-test for trust scores: p-value =", round(t_test_trust$p.value, 3), "\n")  # Printing the p-value for trust score t-test
 cat("T-test for RS scores: p-value =", round(t_test_rs$p.value, 3), "\n")  # Printing the p-value for relationship satisfaction score t-test
 
+# Writing out the computed statistics table to a CSV file
+write_csv(stats_table, "stats_table.csv")
+
+# Writing out t-test results to a CSV file
+t_test_results <- data.frame(
+  Statistic = c("Trust Score p-value", "RS Score p-value"),
+  Value = c(t_test_trust$p.value, t_test_rs$p.value)
+)
+
+write_csv(t_test_results, "t_test_results.csv")
+
 ```
 
 Independent samples *t*-tests compared mean trust and relationship satisfaction (RS) scores between LDR and GCR groups. No significant differences were found for trust (*t*(`r round(t_test_trust$parameter, 2)`) = `r round(t_test_trust$statistic, 2)`, *p* = `r round(t_test_trust$p.value, 3)`) or RS (*t*(`r round(t_test_rs$parameter, 2)`) = `r round(t_test_rs$statistic, 2)`, *p* = `r round(t_test_rs$p.value, 3)`). For **`r group_name`**, mean trust was `r round(stats_table[[group_name]][stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table[[group_name]][stats_table$Statistic == "SD_Trust"], 2)`), and mean RS was `r round(stats_table[[group_name]][stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table[[group_name]][stats_table$Statistic == "SD_RS"], 2)`). For **`r ifelse(group_name == "LDR", "GCR", "LDR")`**, mean trust was `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "Mean_Trust"], 2)` (*SD* = `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "SD_Trust"], 2)`) and mean RS was `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "Mean_RS"], 2)` (*SD* = `r round(stats_table[[ifelse(group_name == "LDR", "GCR", "LDR")]][stats_table$Statistic == "SD_RS"], 2)`). Confidence intervals for trust (`r round(t_test_trust$conf.int[1], 2)` to `r round(t_test_trust$conf.int[2], 2)`) and RS (`r round(t_test_rs$conf.int[1], 2)` to `r round(t_test_rs$conf.int[2], 2)`) included zero, indicating no significant differences. Across all groups, there were `r nrow(stats_table)` observations. The absolute trust score difference was `r round(abs(stats_table$LDR[stats_table$Statistic == "Mean_Trust"] - stats_table$GCR[stats_table$Statistic == "Mean_Trust"]), 2)`, and the LDR/GCR trust ratio was `r round(stats_table$LDR[stats_table$Statistic == "Mean_Trust"] / stats_table$GCR[stats_table$Statistic == "Mean_Trust"], 2)`.
