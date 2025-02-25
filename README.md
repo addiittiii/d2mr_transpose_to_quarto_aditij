@@ -14,6 +14,8 @@ This project investigates the relationships between trust and relationship satis
 *   `cleaned_ldrgcr.xlsx`: The cleaned dataset used for the analysis.
 *   `README.md`: This file, providing an overview of the project.
 *   `_extensions/`: Directory where Quarto extensions (like `apaquarto`) are stored.
+*   `LDR_vs_GCR_paper.PDF`: Final paper rendered from the .qmd file.
+*   `unedited_LDR_vs_GCR_paper.PDF`: The unedited version with which I started.
 
 ## Dependencies
 
