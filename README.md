@@ -1,4 +1,4 @@
-# d2mr Mini Project 2: Transpose to Quarto 
+# D2MR Mini Project 2: Transpose to Quarto 
 
 # LDR vs. GCR Relationship Study: Trust and Satisfaction Analysis
 
