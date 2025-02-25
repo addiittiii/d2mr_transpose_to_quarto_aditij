@@ -8,18 +8,6 @@ This project investigates the relationships between trust and relationship satis
 
 ## Project Structure
 
-LDR_vs_GCR_paper/
-├── LDR_vs_GCR_paper.qmd # Main Quarto document (R Markdown)
-├── Plotting_function.R # Custom plotting function (R script)
-├── bibliography.bib # Bibliography file (BibTeX)
-├── cleaned_ldrgcr.xlsx # Cleaned dataset (Excel)
-├── README.md # Project description
-├── _extensions/ # Quarto extensions directory
-│ └── wjschne/apaquarto/ # APA Quarto Extension (wjschne/apaquarto)
-│ └── ...
-└── ...
-
-
 *   `LDR_vs_GCR_paper.qmd`: The main Quarto document containing the narrative, R code for analysis, and figure/table generation.
 *   `Plotting_function.R`: An R script containing custom plotting functions used in the analysis.
 *   `bibliography.bib`: A BibTeX file storing the bibliographic references used in the document.
@@ -41,6 +29,8 @@ LDR_vs_GCR_paper/
     *   `readxl`: For reading Excel files.
     *   `ggplot2`: For data visualization.
     *   `gridExtra`: For arranging multiple plots.
+    *   `kableExtra`: For styling plots.
+    *   `ftExtra`: For Additional features for flextable
     *   `car`: For regression diagnostics.
     *   `conflicted`: For resolving function conflicts.
 *   **Quarto Extensions:**
@@ -55,7 +45,8 @@ LDR_vs_GCR_paper/
 
     ```R
     install.packages(c("tidyverse", "flextable", "knitr", "dplyr", "readr", "readxl",
-                         "ggplot2", "ggtext", "cocor", "psych", "gridExtra", "car", "conflicted"))
+                         "ggplot2", "kableExtrat",  "gridExtra", "car", "conflicted"
+                         "ftExtra"))
     ```
 
 5.  **Install `apaquarto` Quarto Extension:**
@@ -67,12 +58,7 @@ LDR_vs_GCR_paper/
 
 1.  **Clone the Repository:** Clone this repository to your local machine.
 2.  **Open the Project:** Open the `LDR_vs_GCR_paper.qmd` file in RStudio or a text editor.
-3.  **Render the Document:** Use the Quarto CLI to render the document to the desired output format (DOCX, PDF, HTML).
-
-    *   **Render to DOCX (APA Style):**
-        ```bash
-        quarto render LDR_vs_GCR_paper.qmd --to docx
-        ```
+3.  **Render the Document:** Use the Quarto CLI to render the document to the desired output format (PDF, HTML).
 
     *   **Render to PDF (APA Style):**
         ```bash
@@ -99,17 +85,6 @@ The analysis is performed using R code embedded within the `LDR_vs_GCR_paper.qmd
 *   **Correlation Analysis:** Examining the relationships between trust components and relationship satisfaction.
 *   **Two-Way ANOVA:**  Investigating the effects of relationship type and relationship duration on trust and satisfaction.
 *   **Data Visualizations:**  Creating bar plots, scatter plots, and boxplots to visualize the data and results.
-
-## Key R Packages and Their Roles
-
-*   **`tidyverse`:** A collection of R packages designed for data science, including `dplyr` for data manipulation, `ggplot2` for data visualization, and `readr` for reading data files.
-*   **`flextable`:**  Used to create tables that are compatible with DOCX and other output formats.  Provides fine-grained control over table formatting.
-*   **`knitr`:**  Used for dynamic report generation, allowing R code and Markdown text to be combined into a single document.
-*   **`cocor`:**  Used for comparing correlations between different groups.
-*   **`psych`:**  Provides tools for psychological research, including functions for calculating descriptive statistics, correlations, and reliability.
-*   **`gridExtra`:**  Used for arranging multiple plots on a single page.
-*   **`car`:** Used for regression diagnostics and ANOVA analyses.
-*   **`conflicted`:** Manages function name conflicts between packages, ensuring that the correct functions are used.
 
 ## Troubleshooting
 
