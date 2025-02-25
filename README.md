@@ -1,10 +1,12 @@
-# d2mr Mini Project 2: Transpose to Quarto 
+# D2MR Mini Project 2: Transpose to Quarto 
 
 # LDR vs. GCR Relationship Study: Trust and Satisfaction Analysis
 
 ## Overview
 
 This project investigates the relationships between trust and relationship satisfaction in long-distance romantic relationships (LDRRs) and geographically close relationships (GCRs). The analysis utilizes R for statistical computations and data visualization, and Quarto for document generation with APA formatting.
+
+(I took a paper from my undergrad which was 1. incomplete and 2. had a lot of research loop holes and tried to format it according to APA in a .qmd file (so one thing out of the two is better). I have added all the necessary information down below!)
 
 ## Project Structure
 
@@ -14,6 +16,8 @@ This project investigates the relationships between trust and relationship satis
 *   `cleaned_ldrgcr.xlsx`: The cleaned dataset used for the analysis.
 *   `README.md`: This file, providing an overview of the project.
 *   `_extensions/`: Directory where Quarto extensions (like `apaquarto`) are stored.
+*   `LDR_vs_GCR_paper.PDF`: Final paper rendered from the .qmd file.
+*   `unedited_LDR_vs_GCR_paper.PDF`: The unedited version with which I started.
 
 ## Dependencies
 
