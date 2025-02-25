@@ -78,7 +78,7 @@ This project investigates the relationships between trust and relationship satis
 
 ## Data
 
-The data for this study is stored in `cleaned_ldrgcr.xlsx`. This file contains the cleaned and preprocessed data used for the statistical analysis.  The dataset includes variables related to demographics, relationship characteristics, trust scores (TCRS), and relationship satisfaction scores (RAS).
+The data for this study is stored in `cleaned_ldrgcr.xlsx`. This file contains the cleaned and preprocessed data used for the statistical analysis.  The dataset includes variables related to demographics, relationship characteristics, trust scores (TCRS), and relationship satisfaction scores (RAS). The stats and t-test for both groups has been stored in `stats_table.csv` and `t_test_results.csv` respectively.
 
 ## Analysis
 
