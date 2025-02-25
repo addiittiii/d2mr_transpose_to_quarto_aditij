@@ -6,7 +6,7 @@
 
 This project investigates the relationships between trust and relationship satisfaction in long-distance romantic relationships (LDRRs) and geographically close relationships (GCRs). The analysis utilizes R for statistical computations and data visualization, and Quarto for document generation with APA formatting.
 
-I took a paper from my undergrad which was 1. incomplete and 2. had a lot of research loop holes and tried to format it according to APA in a .qmd file (so one thing out of the two is better). I have added all the necessary information down below! 
+(I took a paper from my undergrad which was 1. incomplete and 2. had a lot of research loop holes and tried to format it according to APA in a .qmd file (so one thing out of the two is better). I have added all the necessary information down below!)
 
 ## Project Structure
 
